@@ -1,5 +1,7 @@
 # Course_Scheduling_Database.py
 import sqlite3
+import requests
+from bs4 import BeautifulSoup
 
 def table_init():
     # store course information in Course_Info.db
@@ -10,6 +12,7 @@ def table_init():
     # list of attributes is not finalized, will be updated as needed
     # NUMBER refers to, for example, 1500 in Comp Sci 1500
     # DEPARTMENT is the official shortened name of the dept, e.g. CHEM ENG, ELEC ENG, etc., it should always fit in a varchar(8)
+    # AVAILABLE is a boolean that is true if it is being offered in the upcoming semester
     cur.execute("""
         CREATE TABLE IF NOT EXISTS COURSE(
             TITLE varchar(63) NOT NULL PRIMARY KEY,
@@ -17,6 +20,7 @@ def table_init():
             NUMBER int, 
             DESCRIPTION varchar(1023),
             NUM_CREDITS float(1)
+            AVAILABLE BOOLEAN,
             
         )
     """)
@@ -30,3 +34,5 @@ def table_init():
 
         )
     """)
+
+    # TODO: grab course information from the course catalog website and fill the course table
