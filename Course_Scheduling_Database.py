@@ -10,17 +10,17 @@ def table_init():
 
     # initialize the entity 'COURSE' and each of its attributes
     # list of attributes is not finalized, will be updated as needed
-    # NUMBER refers to, for example, 1500 in Comp Sci 1500
-    # DEPARTMENT is the official shortened name of the dept, e.g. CHEM ENG, ELEC ENG, etc., it should always fit in a varchar(8)
-    # AVAILABLE is a boolean that is true if it is being offered in the upcoming semester
+    # Number refers to, for example, 1500 in Comp Sci 1500
+    # Department is the official shortened name of the dept, e.g. CHEM ENG, ELEC ENG, etc., it should always fit in a varchar(8)
+    # Available is a boolean that is true if it is being offered in the upcoming semester
     cur.execute("""
         CREATE TABLE IF NOT EXISTS COURSE(
-            TITLE varchar(63) NOT NULL PRIMARY KEY,
-            DEPARTMENT varchar(8),
-            NUMBER int, 
-            DESCRIPTION varchar(1023),
-            NUM_CREDITS float(1)
-            AVAILABLE BOOLEAN,
+            Title VARCHAR(63) NOT NULL PRIMARY KEY,
+            Department VARCHAR(8),
+            Number INT, 
+            Description VARCHAR(1023),
+            numCredits FLOAT(1),
+            Available BOOLEAN
             
         )
     """)
@@ -29,10 +29,16 @@ def table_init():
     # if a course has multiple prerequisites, it will appear in multiple rows
     cur.execute("""
         CREATE TABLE IF NOT EXISTS PREREQUISITE(
-            TITLE varchar(63),
-            PREREQUISITE_TITLE varchar(63)
+            courseTitle TEXT NOT NULL,
+            prereqTitle TEXT NOT NULL,
+            gradeReq VARCHAR(1)
 
         )
     """)
 
-    # TODO: grab course information from the course catalog website and fill the course table
+    # TODO: grab course information from the course catalog website and fill the course table with known info
+    
+    
+    file.commit()
+    file.close()
+
