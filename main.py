@@ -2,4 +2,4 @@
 import database
 
 def main():
-    database_init()
+    database.database_init()
