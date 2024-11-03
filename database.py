@@ -105,7 +105,7 @@ def init():
       ('Java', 'Comp Sci', 2400, 'We teach java here', 3, 0),
       ('Data Structures', 'Comp Sci', 2500, 'We teach data structures here', 3, 1),
       ('Web Development', 'Comp Sci', 2600, 'We teach web development here', 3, 1),
-  	  ('Machine Learning', 'Comp Sci', 2700, 'We teach machine learning here', 3, 1),
+      ('Machine Learning', 'Comp Sci', 2700, 'We teach machine learning here', 3, 1),
       ('Operating Systems', 'Comp Sci', 2800, 'We teach operating systems here', 3, 0),
       ('Database Systems', 'Comp Sci', 2900, 'We teach database systems here', 3, 1),
       ('Network Security', 'Comp Sci', 3000, 'We teach network security here', 3, 1),
