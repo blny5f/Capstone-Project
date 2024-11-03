@@ -1,5 +1,11 @@
 # main.py
-import database
+import database as db
+import functions as func
 
 def main():
-    database.database_init()
+	db.init()
+	while True:
+		func.menu()
+
+
+main()
