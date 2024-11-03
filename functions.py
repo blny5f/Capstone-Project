@@ -31,7 +31,7 @@ def search():
     else:
       avail = 'NOT AVAILABLE'
 
-  print(f'{course[0]:<{col_gap}} {course[1]:<{col_gap}} {course[2]:<{col_gap}} {course[3]:<{col_gap}} {avail:<{col_gap}}')
+    print(f'{course[0]:<{col_gap}} {course[1]:<{col_gap}} {course[2]:<{col_gap}} {course[3]:<{col_gap}} {avail:<{col_gap}}')
 
   print('-' * num_divs)
 

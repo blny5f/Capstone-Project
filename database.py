@@ -97,51 +97,61 @@ def init():
   """);
 
   # TEMPORARY TEST DATA
-  cur.execute("""
-    REPLACE INTO COURSE(Title, Department, Number, Description, numCredits, Available) VALUES
-      ('Python', 'Comp Sci', 1500, 'We teach python here', 3, 1),
-      ('C++', 'Comp Sci', 1575, 'We teach c++ here', 3, 1),
-      ('Boolean Algebra', 'Comp Sci', 2200, 'We teach boolean algebra here', 3, 1),
-      ('Java', 'Comp Sci', 2400, 'We teach java here', 3, 0),
-      ('Data Structures', 'Comp Sci', 2500, 'We teach data structures here', 3, 1),
-      ('Web Development', 'Comp Sci', 2600, 'We teach web development here', 3, 1),
-      ('Machine Learning', 'Comp Sci', 2700, 'We teach machine learning here', 3, 1),
-      ('Operating Systems', 'Comp Sci', 2800, 'We teach operating systems here', 3, 0),
-      ('Database Systems', 'Comp Sci', 2900, 'We teach database systems here', 3, 1),
-      ('Network Security', 'Comp Sci', 3000, 'We teach network security here', 3, 1),
-      ('Artificial Intelligence', 'Comp Sci', 3100, 'We teach artificial intelligence here', 3, 0),
-      ('Software Engineering', 'Comp Sci', 3200, 'We teach software engineering here', 3, 1);
-      ('Computer Graphics', 'Comp Sci', 3300, 'We teach computer graphics here', 3, 1),
-      ('Mobile App Development', 'Comp Sci', 3400, 'We teach mobile app development here', 3, 1),
-      ('Human-Computer Interaction', 'Comp Sci', 3500, 'We teach human-computer interaction here', 3, 1),
-      ('Cloud Computing', 'Comp Sci', 3600, 'We teach cloud computing here', 3, 0),
-      ('Cybersecurity', 'Comp Sci', 3700, 'We teach cybersecurity here', 3, 1),
-      ('Game Development', 'Comp Sci', 3800, 'We teach game development here', 3, 1),
-      ('Big Data Analytics', 'Comp Sci', 3900, 'We teach big data analytics here', 3, 1),
-      ('Software Testing', 'Comp Sci', 4000, 'We teach software testing here', 3, 1);
-  """);
+  courses = [
+    ('Python', 'Comp Sci', 1500, 'We teach python here', 3, 1),
+    ('C++', 'Comp Sci', 1575, 'We teach c++ here', 3, 1),
+    ('Boolean Algebra', 'Comp Sci', 2200, 'We teach boolean algebra here', 3, 1),
+    ('Java', 'Comp Sci', 2400, 'We teach java here', 3, 0),
+    ('Data Structures', 'Comp Sci', 2500, 'We teach data structures here', 3, 1),
+    ('Web Development', 'Comp Sci', 2600, 'We teach web development here', 3, 1),
+    ('Machine Learning', 'Comp Sci', 2700, 'We teach machine learning here', 3, 1),
+    ('Operating Systems', 'Comp Sci', 2800, 'We teach operating systems here', 3, 0),
+    ('Database Systems', 'Comp Sci', 2900, 'We teach database systems here', 3, 1),
+    ('Network Security', 'Comp Sci', 3000, 'We teach network security here', 3, 1),
+    ('Artificial Intelligence', 'Comp Sci', 3100, 'We teach artificial intelligence here', 3, 0),
+    ('Software Engineering', 'Comp Sci', 3200, 'We teach software engineering here', 3, 1),
+    ('Computer Graphics', 'Comp Sci', 3300, 'We teach computer graphics here', 3, 1),
+    ('Mobile App Development', 'Comp Sci', 3400, 'We teach mobile app development here', 3, 1),
+    ('Human-Computer Interaction', 'Comp Sci', 3500, 'We teach human-computer interaction here', 3, 1),
+    ('Cloud Computing', 'Comp Sci', 3600, 'We teach cloud computing here', 3, 0),
+    ('Cybersecurity', 'Comp Sci', 3700, 'We teach cybersecurity here', 3, 1),
+    ('Game Development', 'Comp Sci', 3800, 'We teach game development here', 3, 1),
+    ('Big Data Analytics', 'Comp Sci', 3900, 'We teach big data analytics here', 3, 1),
+    ('Software Testing', 'Comp Sci', 4000, 'We teach software testing here', 3, 1)
+  ]
 
-  cur.execute("""
-    REPLACE INTO USER_PROFILE(studentID, firstName, lastName, Password, Email, Standing) VALUES
-      ('1', 'James', 'Sullivan', 'password123', 'jss4kh@mst.edu', 'Senior'),
-      ('2', 'Mike', 'Wazowski', 'pass12345', 'msw123@mst.edu', 'Senior'),
-      ('3', 'Samantha', 'Williams', 'securePass456', 'saw789@mst.edu', 'Junior'),
-      ('4', 'Oliver', 'Johnson', 'myPassword1', 'ojh456@mst.edu', 'Sophomore'),
-      ('5', 'Emily', 'Davis', 'passw0rd!', 'edw123@mst.edu', 'Freshman'),
-      ('6', 'Daniel', 'Brown', 'password2024', 'dab000@mst.edu', 'Senior'),
-      ('7', 'Sophia', 'Garcia', 'qwerty123', 'sgarcia@mst.edu', 'Junior'),
-      ('8', 'Liam', 'Martinez', 'letmein123', 'lmartinez@mst.edu', 'Senior'),
-      ('9', 'Mia', 'Rodriguez', 'abc123456', 'mrodriguez@mst.edu', 'Sophomore'),
-      ('10', 'Noah', 'Hernandez', 'iloveyou!', 'nh@mst.edu', 'Freshman');
-      ('11', 'Ava', 'Martinez', 'password111', 'avmartinez@mst.edu', 'Sophomore'),
-      ('12', 'Ethan', 'Lopez', 'secret1234', 'el@mst.edu', 'Freshman'),
-      ('13', 'Isabella', 'Gonzalez', 'mypassword1', 'igonzalez@mst.edu', 'Junior'),
-      ('14', 'Lucas', 'Wilson', 'abc1234567', 'lwilson@mst.edu', 'Senior'),
-      ('15', 'Charlotte', 'Anderson', 'letmeinagain!', 'canderson@mst.edu', 'Senior'),
-      ('16', 'James', 'Thomas', 'password!@#', 'jthomas@mst.edu', 'Junior'),
-      ('17', 'Mason', 'Taylor', 'qwertyuiop', 'mtaylor@mst.edu', 'Sophomore'),
-      ('18', 'Ella', 'Moore', 'passwordpass', 'emoore@mst.edu', 'Freshman');
-  """);
+  users = [
+    ('1', 'James', 'Sullivan', 'password123', 'jss4kh@mst.edu', 'Senior'),
+    ('2', 'Mike', 'Wazowski', 'pass12345', 'msw123@mst.edu', 'Senior'),
+    ('3', 'Samantha', 'Williams', 'securePass456', 'saw789@mst.edu', 'Junior'),
+    ('4', 'Oliver', 'Johnson', 'myPassword1', 'ojh456@mst.edu', 'Sophomore'),
+    ('5', 'Emily', 'Davis', 'passw0rd!', 'edw123@mst.edu', 'Freshman'),
+    ('6', 'Daniel', 'Brown', 'password2024', 'dab000@mst.edu', 'Senior'),
+    ('7', 'Sophia', 'Garcia', 'qwerty123', 'sgarcia@mst.edu', 'Junior'),
+    ('8', 'Liam', 'Martinez', 'letmein123', 'lmartinez@mst.edu', 'Senior'),
+    ('9', 'Mia', 'Rodriguez', 'abc123456', 'mrodriguez@mst.edu', 'Sophomore'),
+    ('10', 'Noah', 'Hernandez', 'iloveyou!', 'nh@mst.edu', 'Freshman'),
+    ('11', 'Ava', 'Martinez', 'password111', 'avmartinez@mst.edu', 'Sophomore'),
+    ('12', 'Ethan', 'Lopez', 'secret1234', 'el@mst.edu', 'Freshman'),
+    ('13', 'Isabella', 'Gonzalez', 'mypassword1', 'igonzalez@mst.edu', 'Junior'),
+    ('14', 'Lucas', 'Wilson', 'abc1234567', 'lwilson@mst.edu', 'Senior'),
+    ('15', 'Charlotte', 'Anderson', 'letmeinagain!', 'canderson@mst.edu', 'Senior'),
+    ('16', 'James', 'Thomas', 'password!@#', 'jthomas@mst.edu', 'Junior'),
+    ('17', 'Mason', 'Taylor', 'qwertyuiop', 'mtaylor@mst.edu', 'Sophomore'),
+    ('18', 'Ella', 'Moore', 'passwordpass', 'emoore@mst.edu', 'Freshman')
+  ]
+
+  for course in courses:
+    cur.execute("""
+      REPLACE INTO COURSE(Title, Department, Number, Description, numCredits, Available)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, course);
+
+  for user in users:
+    cur.execute("""
+      REPLACE INTO USER_PROFILE(studentID, firstName, lastName, Password, Email, Standing) 
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, user);
 
   file.commit()
   file.close()
