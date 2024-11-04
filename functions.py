@@ -1,6 +1,7 @@
 # functions.py
 import sqlite3 as sq
 
+# display function, takes SQL fetch data as parameter
 def display(results):
   print(f'\n{len(results)} Results\n')
 
@@ -17,7 +18,6 @@ def display(results):
   print(f'{col1:<{col_gap}} {col2:<{col_gap}} {col3:<{col_gap}} {col4:<{col_gap}} {col5:<{col_gap}}')
   print('-' * num_divs)
 
-
   # recursively print each result
   # convert 'Available' boolean in course[4] to a readable format
   for course in results:
@@ -30,9 +30,8 @@ def display(results):
 
   print('-' * num_divs)
 
-  return
 
-
+# sort function for course list search results
 def sort(results):
   file = sq.connect("Course_Info.db")
   cur = file.cursor()
@@ -46,10 +45,83 @@ def sort(results):
       else:
         print("Please select a valid option.")
     except ValueError:
-      print("Please select a valid number.")
+      print("Please select a valid option.")
 
-  results = sorted(results, key = lambda course: course[option-1])
+
+  if option != 5:
+    results = sorted(results, key = lambda course: course[option-1])
+  else:
+    results = sorted(results, key = lambda course: course[option-1], reverse = True)
+
   display(results)
+  return results
+
+# filter settings function
+def filter_settings(settings):
+  # default settings values, stored in 'settings' tuple
+  if settings is None:
+    num_bool = False
+    avail_bool = True
+    num_lower_bound = 0
+    num_upper_bound = 9999
+    settings = (num_bool, num_lower_bound, num_upper_bound, avail_bool)
+
+  while True:
+    try:
+      print("\n1. Number\n2. Change number bounds\n3. Availability\n4. Return to main menu")
+      option = int(input("\nSelect a setting to change it. "))
+      if option in {1, 2, 3, 4}:
+        break
+      else:
+        print("Please select a valid option.")
+    except ValueError:
+      print("Please select a valid option.")
+
+  match(option):
+    case 1:
+      num_bool = not num_bool
+      if(num_bool):
+        print("Number filter has been turned ON.")
+      else:
+        print("Number filter has been turned OFF.")
+    case 2:
+      while True:
+        try:
+          num_lower_bound = int(input("Enter lower bound: "))
+          num_upper_bound = int(input("Enter upper bound: "))
+          break
+        except ValueError:
+          print("Please enter a valid number")
+    case 3:
+      avail_bool = not avail_bool
+      if(avail_bool):
+        print("Available filter has been turned ON.")
+      else:
+        print("Available filter has been turned OFF.")
+    case 4:
+      return settings
+
+
+# filter function for search results
+def results_filter(results):
+  file = sq.connect("Course_Info.db")
+  cur = file.cursor()
+
+  while True:
+    try:
+      print("\n1. Number\n2. Credits\n3. Available")
+      option = int(input("\nFilter by? "))
+      if option in {1, 2, 3}:
+        break
+      else:
+        print("Please select a valid option.")
+    except ValueError:
+      print("Please select a valid option.")
+
+  results = list(filter(lambda course: course[option + 1], results))
+  display(results)
+
+  return results
 
 
 # search function for course list
@@ -60,11 +132,12 @@ def search():
   # take string to search as input and select matches, sorted by ascending course number
   search_term = input("Search: ")
   print("\nSearching...")
-  cur.execute("""SELECT Title, Department, Number, numCredits, Available
+  cur.execute("""
+    SELECT Title, Department, Number, numCredits, Available
     FROM Course
-    WHERE Title LIKE ?
+    WHERE Title LIKE ? OR Department LIKE ? OR Number LIKE ?
     ORDER BY Number ASC
-  """, ('%' + search_term + '%',))
+  """, ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%'))
 
   # fetch results and print the number of results found
   results = cur.fetchall()
@@ -81,20 +154,20 @@ def search():
       else:
         print("Please select a valid option.")
     except ValueError:
-      print("Please select a valid number.")
+      print("Please select a valid option.")
 
   match(option):
     case 1:
       sort(results)
     case 2:
-      filter(results)
+      results_filter(results)
     case 3:
       search()
     case 4:
       return
 
 
-# login function to call as website is opened
+# login function to call as website is opened or user logs out
 def login():
   # take email and password as input
   print('-' * 142)
@@ -120,12 +193,13 @@ def login():
     login()
   else:
     print(f'Welcome, {profile[2]}!')
+    settings = None
 
 
 # menu function, called after logging in
-def menu():
+def menu(settings):
   # display options
-  print("\n1: Search the course list\n2: option 2\n3: Exit the program")
+  print("\n1: Search the course list\n2: Filter settings\n3: Exit the program")
 
   # loop until user enters valid number
   while True:
@@ -143,6 +217,6 @@ def menu():
     case 1:
       search()
     case 2:
-      print("option 2")
+      filter_settings(settings)
     case 3:
       exit()

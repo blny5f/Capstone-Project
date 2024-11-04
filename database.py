@@ -3,15 +3,15 @@ import sqlite3 as sq
 import os
 from bs4 import BeautifulSoup
 
+# initialize the entity 'COURSE' and each of its attributes
+# list of attributes is not finalized, will be updated as needed
+# Number refers to, for example, 1500 in Comp Sci 1500
+# Department is the official shortened name of the dept, e.g. CHEM ENG, ELEC ENG, etc., it should always fit in a varchar(8)
+# Available is a boolean that is true if it is being offered in the upcoming semester and has open seats
 def init():
   # store course information in Course_Info.db
   file = sq.connect("Course_Info.db")
   cur = file.cursor()
-  # initialize the entity 'COURSE' and each of its attributes
-  # list of attributes is not finalized, will be updated as needed
-  # Number refers to, for example, 1500 in Comp Sci 1500
-  # Department is the official shortened name of the dept, e.g. CHEM ENG, ELEC ENG, etc., it should always fit in a varchar(8)
-  # Available is a boolean that is true if it is being offered in the upcoming semester and has open seats
   cur.execute("""
     CREATE TABLE IF NOT EXISTS COURSE(
       Title VARCHAR(63) NOT NULL PRIMARY KEY,
