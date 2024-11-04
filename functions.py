@@ -11,6 +11,7 @@ def search():
     WHERE Title LIKE ?
     """, ('%' + search_term + '%',))
 
+  print('\nSearching...')
   results = cur.fetchall()
   print(f'\n{len(results)} Results\n')
 
@@ -34,6 +35,30 @@ def search():
     print(f'{course[0]:<{col_gap}} {course[1]:<{col_gap}} {course[2]:<{col_gap}} {course[3]:<{col_gap}} {avail:<{col_gap}}')
 
   print('-' * num_divs)
+
+
+def login():
+  print('-' * 142)
+  print("Login with your university Email and password.")
+
+  email = input("Email: ")
+  password = input("Password: ")
+
+  print('-' * 142)
+  file = sq.connect("Course_Info.db")
+  cur = file.cursor()
+  cur.execute("""SELECT Email, Password, firstName
+    FROM User_Profile
+    WHERE Email LIKE ?
+    AND Password LIKE ?""", (email, password)
+  )
+
+  profile = cur.fetchone()
+  if profile is None:
+    print("Invalid Email or password.")
+    login()
+  else:
+    print(f'Welcome, {profile[2]}!')
 
 
 def menu():

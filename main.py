@@ -4,6 +4,7 @@ import functions as func
 
 def main():
   db.init()
+  func.login()
   while True:
     func.menu()
 

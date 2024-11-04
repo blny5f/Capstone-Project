@@ -1,11 +1,11 @@
 # database.py
-import sqlite3
+import sqlite3 as sq
 import os
 from bs4 import BeautifulSoup
 
 def init():
   # store course information in Course_Info.db
-  file = sqlite3.connect("Course_Info.db")
+  file = sq.connect("Course_Info.db")
   cur = file.cursor()
   # initialize the entity 'COURSE' and each of its attributes
   # list of attributes is not finalized, will be updated as needed
@@ -149,7 +149,7 @@ def init():
 
   for user in users:
     cur.execute("""
-      REPLACE INTO USER_PROFILE(studentID, firstName, lastName, Password, Email, Standing) 
+      REPLACE INTO USER_PROFILE(studentID, firstName, lastName, Password, Email, Standing)
         VALUES (?, ?, ?, ?, ?, ?)
     """, user);
 
