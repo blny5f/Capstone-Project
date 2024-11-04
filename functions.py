@@ -1,21 +1,7 @@
 # functions.py
 import sqlite3 as sq
 
-# search function for course list
-def search():
-  file = sq.connect("Course_Info.db")
-  cur = file.cursor()
-
-  # take string to search as input and select matches
-  search_term = input("Search: ")
-  print("\nSearching...")
-  cur.execute("""SELECT Title, Department, Number, numCredits, Available
-    FROM Course
-    WHERE Title LIKE ?
-    """, ('%' + search_term + '%',))
-
-  # fetch results and print the number of results found
-  results = cur.fetchall()
+def display(results):
   print(f'\n{len(results)} Results\n')
 
   # basic UI to format results cleanly
@@ -43,6 +29,69 @@ def search():
     print(f'{course[0]:<{col_gap}} {course[1]:<{col_gap}} {course[2]:<{col_gap}} {course[3]:<{col_gap}} {avail:<{col_gap}}')
 
   print('-' * num_divs)
+
+  return
+
+
+def sort(results):
+  file = sq.connect("Course_Info.db")
+  cur = file.cursor()
+
+  while True:
+    try:
+      print("\n1. Title\n2. Department\n3. Number\n4. Credits\n5. Availability")
+      option = int(input("\nSort by? "))
+      if option in {1, 2, 3, 4, 5}:
+        break
+      else:
+        print("Please select a valid option.")
+    except ValueError:
+      print("Please select a valid number.")
+
+  results = sorted(results, key = lambda course: course[option-1])
+  display(results)
+
+
+# search function for course list
+def search():
+  file = sq.connect("Course_Info.db")
+  cur = file.cursor()
+
+  # take string to search as input and select matches, sorted by ascending course number
+  search_term = input("Search: ")
+  print("\nSearching...")
+  cur.execute("""SELECT Title, Department, Number, numCredits, Available
+    FROM Course
+    WHERE Title LIKE ?
+    ORDER BY Number ASC
+  """, ('%' + search_term + '%',))
+
+  # fetch results and print the number of results found
+  results = cur.fetchall()
+  display(results)
+
+  # give user options after displaying results
+  # loop until valid choice is given
+  while True:
+    try:
+      print("\n1. Sort results\n2. Apply filters\n3. Search again\n4. Return to main menu")
+      option = int(input("\nEnter a number to select an option: "))
+      if option in {1, 2, 3, 4}:
+        break
+      else:
+        print("Please select a valid option.")
+    except ValueError:
+      print("Please select a valid number.")
+
+  match(option):
+    case 1:
+      sort(results)
+    case 2:
+      filter(results)
+    case 3:
+      search()
+    case 4:
+      return
 
 
 # login function to call as website is opened
@@ -82,7 +131,10 @@ def menu():
   while True:
     try:
       option = int(input("\nEnter a number to select an option: "))
-      break
+      if option in {1, 2, 3}:
+        break
+      else:
+        print("Please select a valid option.")
     except ValueError:
       print("Please enter a valid number.")
 
