@@ -93,12 +93,15 @@ def login_screen():
         widget.destroy()
 
     tk.Label(window, text="Login", font=("Arial", 16), bg="white").grid(row=0, column=0, sticky="sw")
-    tk.Label(window, text="Email:", font=("Arial", 12), bg="white").grid(pady=(20,0),row=1, column=0, sticky="ne")
+
+    tk.Label(window, text="Email:", font=("Arial", 12), bg="white").grid(pady=(20,5), row=1, column=0, sticky="ne")
     email_entry = tk.Entry()
-    email_entry.grid(row=1, column=1, sticky="sw")
-    tk.Label(window, text="Password:", font=("Arial", 12), bg="white").grid(row=2, column=0, sticky="ne")
+    email_entry.grid(row=1, column=1, sticky="sw", pady=(0,5))
+
+    tk.Label(window, text="Password:", font=("Arial", 12), bg="white").grid(padx=(30,0),row=2, column=0, sticky="ne")
     password_entry = tk.Entry()
     password_entry.grid(row=2, column=1, sticky="ne",pady=(0,10))
+
     tk.Button(window, text="Log in", bg="light grey", command=lambda: login_credentials(email_entry, password_entry)).grid(pady=(20,0), row=4, column=1)
     create_acc_bttn = tk.Button(window, text="Create account", bg="light grey", command=create_account_screen)
     create_acc_bttn.grid(pady=(10,0),row=5, column=1)
@@ -109,15 +112,21 @@ def create_account_screen():
         widget.destroy()
 
     tk.Label(window, text="Create New Account", font=("Arial", 16), bg="white").grid(row=0, column=0, sticky="sw", columnspan=2)
-    tk.Label(window, text="Email:", font=("Arial", 12), bg="white").grid(row=1, column=0, sticky="se")
+    tk.Label(window, text="Email:", font=("Arial", 12), bg="white").grid(pady=(15,5), row=1, column=0, sticky="ne")
     email_entry = tk.Entry()
-    email_entry.grid(row=1, column=1, sticky="sw")
-    tk.Label(window, text="New Password:", font=("Arial", 12), bg="white").grid(row=2, column=0, sticky="se")
+    email_entry.grid(row=1, column=1, sticky="sw", pady=(0,5))
+
+    tk.Label(window, text="New Password:", font=("Arial", 12), bg="white").grid(padx=(30,0), row=2, column=0, sticky="ne")
     password_entry = tk.Entry()
-    password_entry.grid(row=2, column=1, sticky="sw")
-    tk.Button(window, text="Log in", bg="light grey", command=open_app).grid(row=3, column=1)
+    password_entry.grid(row=2, column=1, sticky="sw", pady=(0,5))
+
+    tk.Label(window, text="Confirm Password:", font=("Arial", 12), bg="white").grid(row=3, column=0, sticky="ne")
+    confirm_password_entry = tk.Entry()
+    confirm_password_entry.grid(row=3, column=1, sticky="sw", pady=(0,5))
+
+    tk.Button(window, text="Log in", bg="light grey", command=open_app).grid(pady=(10,0), row=4, column=1)
     back_button = tk.Button(window, text="Back", bg="light grey", command=login_screen)
-    back_button.grid(row=5, column=1, sticky="nw")
+    back_button.grid(pady=(5,0), row=5, column=1)
 
 
 def login_credentials(email_entry, password_entry):
@@ -126,7 +135,7 @@ def login_credentials(email_entry, password_entry):
     if(fn.valid_login(email, password)):
         open_app()
     else:
-        invalid_label = tk.Label(window, text="Invalid email or password. Please try again", font=("Arial", 12), bg="white", wraplength=350)
+        invalid_label = tk.Label(window, text="Invalid email or password. Please try again", font=("Arial", 11), bg="white", wraplength=350)
         invalid_label.grid(row=3, column=0, columnspan=6, sticky="sw")
 
 
