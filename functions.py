@@ -167,16 +167,9 @@ def search():
       return
 
 
-# login function to call as website is opened or user logs out
-def login():
-  # take email and password as input
-  print('-' * 142)
-  print("Login with your university Email and password.")
-  email = input("Email: ")
-  password = input("Password: ")
-
+# check if login credentials are valid
+def valid_login(email, password):
   # connect to database and find a match for the given login information
-  print('-' * 142)
   file = sq.connect("Course_Info.db")
   cur = file.cursor()
   cur.execute("""SELECT Email, Password, firstName
@@ -189,11 +182,9 @@ def login():
   # otherwise, greet user with their first name
   profile = cur.fetchone()
   if profile is None:
-    print("Invalid Email or password.")
-    login()
+    return 0
   else:
-    print(f'Welcome, {profile[2]}!')
-    settings = None
+    return 1
 
 
 # menu function, called after logging in
@@ -220,3 +211,30 @@ def menu(settings):
       filter_settings(settings)
     case 3:
       exit()
+
+
+# new account creation, adds new user to database
+def new_account():
+  new_email = input("University Email: ")
+  new_password = input("New Password: ")
+  confirm_new_password = input("Confirm New Password: ")
+  if(new_password != confirm_new_password):
+    new_password = ''
+    confirm_new_password = ''
+    print("Passwords do not match. Please try again.")
+  else:
+    print("Account created.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+

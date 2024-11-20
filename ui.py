@@ -1,33 +1,17 @@
 import tkinter as tk
+import functions as fn
 
 current_course_num = None
 
-restore_width = 300
-restore_height = 400
-
-zoom_width = 1800
-zoom_height = 800
+default_width = 1024
+default_height = 768
 
 button_width = 20
-
-def zoom_window():
-	window.geometry(f"{zoom_width}x{zoom_height}")
-
-def restore_window():
-	window.geometry(f"{restore_width}x{restore_height}")
-
-def create_control_frame():
-	control_frame = tk.Frame(window, bg="white")
-	control_frame.pack(pady=5, anchor="w")
-	tk.Button(control_frame, text="Expand", bg="light grey", command=zoom_window).pack(side="left", padx=5)
-	tk.Button(control_frame, text="Restore", bg="light grey", command=restore_window).pack(side="left", padx=5)
-	return control_frame
 
 def show_course_list():
     for widget in window.winfo_children():
         widget.destroy()
 
-    create_control_frame()
 
     tk.Label(window, text="Course Selection", font=("Arial", 16), bg="white").pack(pady=10, anchor="w")
 
@@ -66,6 +50,7 @@ def show_course_list():
     back_button = tk.Button(window, text="Back", font=("Arial", 12), bg="light grey", width=button_width, command=open_app)
     back_button.pack(pady=20, anchor="w")
 
+
 def show_course_content(num):
     global current_course_num
     current_course_num = num
@@ -73,7 +58,6 @@ def show_course_content(num):
     for widget in window.winfo_children():
         widget.destroy()
 
-    create_control_frame()
     tk.Label(window, text=num, font=("Arial", 16), bg="white").pack(pady=20, anchor="w")
 
     syllabus_button = tk.Button(window, text="Syllabus/General Information", font=("Arial", 12), bg="light grey", width=button_width, command=lambda: show_info("Syllabus/General Information"))
@@ -85,42 +69,85 @@ def show_course_content(num):
     back_button = tk.Button(window, text="Back", font=("Arial", 12), bg="light grey", width=button_width, command=show_course_list)
     back_button.pack(pady=10, anchor="w")
 
+
 def show_info(msg):
     for widget in window.winfo_children():
         widget.destroy()
 
-    create_control_frame()
-
     tk.Label(window, text=msg, font=("Arial", 16), bg="white").pack(pady=20, anchor="w")
     back_button = tk.Button(window, text="Back", font=("Arial", 12), bg="light grey", width=button_width, command=show_course_list)
     back_button.pack(pady=10, anchor="w")
+
 
 def show_material(msg):
     for widget in window.winfo_children():
         widget.destroy()
 
-    create_control_frame()
-
     tk.Label(window, text=msg, font=("Arial", 16), bg="white").pack(pady=20, anchor="w")
     back_button = tk.Button(window, text="Back", font=("Arial", 12), bg="light grey", width=button_width, command=show_course_list)
     back_button.pack(pady=10, anchor="w")
+
+
+def login_screen():
+    for widget in window.winfo_children():
+        widget.destroy()
+
+    tk.Label(window, text="Login", font=("Arial", 16), bg="white").grid(row=0, column=0, sticky="sw")
+    tk.Label(window, text="Email:", font=("Arial", 12), bg="white").grid(pady=(20,0),row=1, column=0, sticky="ne")
+    email_entry = tk.Entry()
+    email_entry.grid(row=1, column=1, sticky="sw")
+    tk.Label(window, text="Password:", font=("Arial", 12), bg="white").grid(row=2, column=0, sticky="ne")
+    password_entry = tk.Entry()
+    password_entry.grid(row=2, column=1, sticky="ne",pady=(0,10))
+    tk.Button(window, text="Log in", bg="light grey", command=lambda: login_credentials(email_entry, password_entry)).grid(pady=(20,0), row=4, column=1)
+    create_acc_bttn = tk.Button(window, text="Create account", bg="light grey", command=create_account_screen)
+    create_acc_bttn.grid(pady=(10,0),row=5, column=1)
+
+
+def create_account_screen():
+    for widget in window.winfo_children():
+        widget.destroy()
+
+    tk.Label(window, text="Create New Account", font=("Arial", 16), bg="white").grid(row=0, column=0, sticky="sw", columnspan=2)
+    tk.Label(window, text="Email:", font=("Arial", 12), bg="white").grid(row=1, column=0, sticky="se")
+    email_entry = tk.Entry()
+    email_entry.grid(row=1, column=1, sticky="sw")
+    tk.Label(window, text="New Password:", font=("Arial", 12), bg="white").grid(row=2, column=0, sticky="se")
+    password_entry = tk.Entry()
+    password_entry.grid(row=2, column=1, sticky="sw")
+    tk.Button(window, text="Log in", bg="light grey", command=open_app).grid(row=3, column=1)
+    back_button = tk.Button(window, text="Back", bg="light grey", command=login_screen)
+    back_button.grid(row=5, column=1, sticky="nw")
+
+
+def login_credentials(email_entry, password_entry):
+    email = email_entry.get()
+    password = password_entry.get()
+    if(fn.valid_login(email, password)):
+        open_app()
+    else:
+        invalid_label = tk.Label(window, text="Invalid email or password. Please try again", font=("Arial", 12), bg="white", wraplength=350)
+        invalid_label.grid(row=3, column=0, columnspan=6, sticky="sw")
 
 
 def open_app():
     for widget in window.winfo_children():
         widget.destroy()
 
-    create_control_frame()
-
     tk.Label(window, text="Choose Your Degree Path", font=("Arial", 16), bg="white").pack(pady=20, anchor="w")
     cs_button = tk.Button(window, text="Computer Science", font=("Arial", 12), bg="light grey", width=button_width, command=show_course_list)
     cs_button.pack(pady=10, anchor="w")
 
+
 window = tk.Tk()
 window.title("Capstone I")
-window.geometry(f"{restore_width}x{restore_height}")
+window.geometry(f"{default_width}x{default_height}")
 window.configure(bg="white")
+for i in range(50):
+  window.grid_columnconfigure(i, minsize=16)
+  window.grid_rowconfigure(i, minsize=16)
 
-open_app()
+
+login_screen()
 
 window.mainloop()
