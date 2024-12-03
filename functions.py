@@ -172,15 +172,16 @@ def valid_login(email, password):
   # connect to database and find a match for the given login information
   file = sq.connect("Course_Info.db")
   cur = file.cursor()
-  cur.execute("""SELECT Email, Password, firstName
+  cur.execute("""SELECT Email, Password
     FROM User_Profile
-    WHERE Email LIKE ?
-    AND Password LIKE ?""", (email, password)
+    WHERE Email = ?
+    AND Password = ?""", (email, password)
   )
 
   # if no results from fetchone(), invalid login information, try again
   # otherwise, greet user with their first name
   profile = cur.fetchone()
+  file.close()
   if profile is None:
     return 0
   else:
@@ -224,17 +225,4 @@ def new_account():
     print("Passwords do not match. Please try again.")
   else:
     print("Account created.")
-
-
-
-
-
-
-
-
-
-
-
-
-
 
