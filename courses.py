@@ -1,3 +1,4 @@
+# to be imported to other files
 courses = [
   ('Introduction to Computer Science', 'Comp Sci', 1010, 'This course is devoted to an introduction of various areas of Computer Science, the faculty members, and lab equipment. Computer ethics will be discussed in several lectures.', 3, 1),
   ('Discrete Mathematics for Computer Science', 'Comp Sci', 1200, 'This course provides a rigorous treatment of topics from discrete mathematics which are essential to computer science. Principal topics include: formal logic (propositional & predicate), set theory, proof techniques, mathematical induction, program correctness, combinatorics, discrete probability, relations, functions, matrices, and graph theory. Prerequisite: A grade of "C" or better in either Comp Sci 1500 or Comp Sci 1570 and in one of Math 1120, Math 1140, Math 1208, Math 1210, Math 1211, or Math 1214.', 3, 1),
