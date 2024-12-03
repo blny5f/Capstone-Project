@@ -62,35 +62,34 @@ def show_course_content(num):
     for widget in window.winfo_children():
         widget.destroy()
 
+    course_details = next((course for course in courses if f'CS {course[2]}' == num), None)
 
+    msg = f"{course_details[1]} {course_details[2]}: {course_details[0]}"
     back_button = tk.Button(window, text="Back", font=("Arial", 12), bg="light grey", width=back_button_width, command=show_course_list)
     back_button.grid(row=0, column=0, pady=20, sticky="w")
 
-    tk.Label(window, text=num, font=("Arial", 16), bg="white").grid(row=1, column=0, pady=20, sticky="w")
+    label = tk.Label(window, text=msg, font=("Arial", 16), bg="white")
+    label.grid(row=1, column=0, sticky="w")
 
-    syllabus_button = tk.Button(window, text="Syllabus/General Information", font=("Arial", 12), bg="light grey", width=25, command=lambda: show_info("Syllabus/General Information"))
-    syllabus_button.grid(row=2, column=0, pady=5, sticky="w")
+    description_label = tk.Label(window, text=f"{course_details[3]}", font=("Arial", 12), bg="white", wraplength=600, justify="left")
+    description_label.grid(row=2, column=0, pady=10, sticky="w")
 
-    example_button = tk.Button(window, text="Example Material", font=("Arial", 12), bg = "light grey", width=15, command=lambda: show_material("Example Material"))
-    example_button.grid(row=3, column=0, pady=5, sticky="w")
+    credits_label = tk.Label(window, text=f"Credits: {course_details[4]}", font=("Arial", 12), bg="white")
+    credits_label.grid(row=3, column=0, pady=10, sticky="w")
+
+    syllabus_button = tk.Button(window, text="Syllabus", font=("Arial", 12), bg="light grey", width=10, command=lambda: show_info("Syllabus"))
+    syllabus_button.grid(row=4, column=0, pady=10, sticky="w")
 
 
 def show_info(msg):
     for widget in window.winfo_children():
         widget.destroy()
 
-    tk.Label(window, text=msg, font=("Arial", 16), bg="white").pack(pady=20, anchor="w")
+    label = tk.Label(window, text=msg, font=("Arial", 16), bg="white")
+    label.grid(row=1, column=0, pady=20, sticky="w")
+
     back_button = tk.Button(window, text="Back", font=("Arial", 12), bg="light grey", width=back_button_width, command=show_course_list)
-    back_button.pack(pady=10, anchor="w")
-
-
-def show_material(msg):
-    for widget in window.winfo_children():
-        widget.destroy()
-
-    tk.Label(window, text=msg, font=("Arial", 16), bg="white").pack(pady=20, anchor="w")
-    back_button = tk.Button(window, text="Back", font=("Arial", 12), bg="light grey", width=back_button_width, command=show_course_list)
-    back_button.pack(pady=10, anchor="w")
+    back_button.grid(row=0, column=0, pady=10, sticky="w")
 
 
 def login_screen():
