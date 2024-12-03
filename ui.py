@@ -2,6 +2,8 @@ import tkinter as tk
 import functions as fn
 import sqlite3 as sq
 import database as db
+import os
+from PIL import Image, ImageTk
 from courses import courses
 
 current_profile_email = None
@@ -77,11 +79,11 @@ def show_course_content(num):
     credits_label = tk.Label(window, text=f"Credits: {course_details[4]}", font=("Arial", 12), bg="white")
     credits_label.grid(row=3, column=0, pady=10, sticky="w")
 
-    syllabus_button = tk.Button(window, text="Syllabus", font=("Arial", 12), bg="light grey", width=10, command=lambda: show_info("Syllabus"))
+    syllabus_button = tk.Button(window, text="Syllabus", font=("Arial", 12), bg="light grey", width=10, command=lambda: show_info("Syllabus", course_details[2]))
     syllabus_button.grid(row=4, column=0, pady=10, sticky="w")
 
 
-def show_info(msg):
+def show_info(msg, course_num):
     for widget in window.winfo_children():
         widget.destroy()
 
@@ -91,22 +93,37 @@ def show_info(msg):
     back_button = tk.Button(window, text="Back", font=("Arial", 12), bg="light grey", width=back_button_width, command=show_course_list)
     back_button.grid(row=0, column=0, pady=10, sticky="w")
 
+    path = None
+    match course_num:
+        case 2500:
+            path = "syllabi/CS2500.png"
+
+    if(path):
+        display_syllabus(path)
+
 
 def login_screen():
     for widget in window.winfo_children():
         widget.destroy()
 
-    tk.Label(window, text="Login", font=("Arial", 16), bg="white").grid(row=0, column=0, sticky="sw")
+    login_label = tk.Label(window, text="Login", font=("Arial", 16), bg="white")
+    login_label.grid(row=0, column=0, sticky="sw")
 
-    tk.Label(window, text="Email:", font=("Arial", 12), bg="white").grid(pady=(20,5), row=1, column=0, sticky="ne")
+    email_label = tk.Label(window, text="Email:", font=("Arial", 12), bg="white")
+    email_label.grid(pady=(20, 5), row=1, column=0, sticky="ne")
+
     email_entry = tk.Entry()
     email_entry.grid(row=1, column=1, sticky="sw", pady=(0,5))
 
-    tk.Label(window, text="Password:", font=("Arial", 12), bg="white").grid(padx=(30,0),row=2, column=0, sticky="ne")
+    pass_label = tk.Label(window, text="Password:", font=("Arial", 12), bg="white")
+    pass_label.grid(padx=(30,0),row=2, column=0, sticky="ne")
+
     password_entry = tk.Entry(show="*")
     password_entry.grid(row=2, column=1, sticky="ne",pady=(0,10))
 
-    tk.Button(window, text="Log in", bg="light grey", command=lambda: login_credentials(email_entry, password_entry)).grid(pady=(20,0), row=4, column=1)
+    login_button = tk.Button(window, text="Log in", bg="light grey", command=lambda: login_credentials(email_entry, password_entry))
+    login_button.grid(pady=(20,0), row=4, column=1)
+
     create_acc_bttn = tk.Button(window, text="Create account", bg="light grey", command=create_account_screen)
     create_acc_bttn.grid(pady=(10,0),row=5, column=1)
 
@@ -247,6 +264,15 @@ def logout():
     current_profile_fname = None
     current_profile_lname = None
     login_screen()
+
+
+def display_syllabus(path):
+    img = Image.open(path)
+    img = img.resize((800, 600))
+    tk_img = ImageTk.PhotoImage(img)
+    label = tk.Label(window, image=tk_img, bg="white")
+    label.img = tk_img
+    label.grid(row=2, column=0, pady=20, sticky="w")
 
 
 def open_app():
