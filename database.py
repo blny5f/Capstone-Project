@@ -96,10 +96,6 @@ def init():
     )
   """);
 
-  users = [
-    ('1', 'Ben', 'Naumann', 'a', 'a'),
-  ]
-
   for course in courses:
     cur.execute("""
       REPLACE INTO COURSE(Title, Department, Number, Description, numCredits, Available)
